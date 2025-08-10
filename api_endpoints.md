@@ -97,7 +97,7 @@ Example:
 
 ```
 
-5. Delete Account
+## 5. Delete Account
 
 **DELETE** `/delete-account/<account_id>/`
 
@@ -105,8 +105,8 @@ Example:
 
 `DELETE /delete-account/809b58a5-e1b3-4c2e-af7b-2ca37b495aa1/`
 
-```
 **Response**
+```
 {
   "message": "Account and its destinations deleted successfully."
 }
