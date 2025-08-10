@@ -28,4 +28,34 @@ Destinations include their own URLs, HTTP methods, and custom headers, and are a
 ```bash
 https://github.com/Mhd-Asjad/django-webhook-relay-service.git
 cd django-webhook-relay-service
+
 ```
+2. **Create and activate a virtual environment**
+```
+python -m venv env
+source env/bin/activate   # On Windows: env\Scripts\activate
+
+```
+
+3. **Install dependencies**
+
+```
+pip install -r requirements.txt
+
+```
+
+4. **Run migrations**
+
+```
+python manage.py runserver
+
+```
+
+5. **Run the server**
+
+```
+python manage.py runserver
+
+```
+
+Access the server on - 🍭 http://127.0.0.1:8000/
