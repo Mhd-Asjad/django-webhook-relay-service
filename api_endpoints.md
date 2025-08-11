@@ -15,8 +15,9 @@ http://127.0.0.1:8000/api/accounts
   "name": "Client App"
 }
 
+```
 **Response (200 OK)**
-
+```
 {
   "account_id": "809b58a5-e1b3-4c2e-af7b-2ca37b495aa1",
   "secret_token": "abc123xyz789"
@@ -81,7 +82,6 @@ Example:
 **Request Body (JSON)**
  
 ```
-
 {
   "event": "user.created",
   "email": "john@example.com"
