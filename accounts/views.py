@@ -10,10 +10,10 @@ from .models import *
 class IncomingDataView(APIView):
     # only recieves a post data sent's to particular destination
     def post(self , request ) :
-        token = request.headers.get("cL-X-TOKEN")
+        token = request.headers.get("CL-X-TOKEN")
         if not token:
             return Response({"message":"unautherized"},status=401)
-        
+        print(token)
         data = request.data
         
         if not isinstance(data , dict):
