@@ -6,7 +6,7 @@ http://127.0.0.1:8000/api/accounts
 
 
 ## 1. Save Account
-**POST** `/save-account/`
+**POST** `/save-account/save-account/`
 
 **Request Body (JSON)**
 ```
