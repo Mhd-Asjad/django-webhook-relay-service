@@ -104,9 +104,18 @@ class CreateDestination(APIView):
 class GetDestinations(APIView):
     def get(self , reqeust , account_id):
         try: 
-            print(account_id)
-            account = Account.objects.get(account_id=account_id)
+            try:
+                uuid_obj = uuid.UUID(account_id)
+            except ValueError:
+                return Response(
+                    {"error": "Invalid account_id format. Please provide a valid UUID."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Fetch account
+            account = Account.objects.get(account_id=uuid_obj)
             destinations = account.destinations.all()
+
             
             data = [] 
             for d in destinations:
@@ -117,7 +126,16 @@ class GetDestinations(APIView):
                     "headers": d.headers
                 })
                 
+        
+                
             return Response({'account': account.email, 'destinations': data} , status=200)
+        
+        except Account.DoesNotExist:
+            return Response(
+                {"error": "Account not found for the provided UUID."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
         except Exception as e:
             return Response({'error': f"error while fetching destination : {str(e)}"},status=500)
         
@@ -125,8 +143,14 @@ class GetDestinations(APIView):
 class DeleteAccount(APIView):
     def delete(self , request , account_id):
         try:
-            
-            account = Account.objects.get(account_id=account_id)
+            try : 
+                account = Account.objects.get(account_id=account_id)
+                
+            except Account.DoesNotExist : 
+                return Response(
+                    {"error": "Account not found for the provided UUID."},
+                    status=status.HTTP_404_NOT_FOUND
+                )
             account.delete()
             return Response({"message": "Account and its destinations deleted"}, status=200)
         
