@@ -2,7 +2,7 @@
 
 Base URL (Local):
 
-http://127.0.0.1:8000/api/accounts
+http://127.0.0.1:8000/api/accounts](https://weebhook-service.onrender.com/api/accounts
 
 
 ## 1. Save Account
