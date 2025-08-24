@@ -216,8 +216,15 @@ class ShowAccount(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
             
-            account = Account.objects.get(account_id=uuid_obj)
-            
+            try : 
+                account = Account.objects.get(account_id=uuid_obj)
+                
+            except Account.DoesNotExist : 
+                return Response(
+                    {"error": "Account not found for the account ID."},
+                    status=status.HTTP_404_NOT_FOUND           
+                )
+                
             account_data = {
                 "name" : account.name,
                 "email": account.email,
@@ -245,7 +252,14 @@ class EditAccount(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
                 
-            account = Account.objects.get(account_id=uuid_obj)
+            try : 
+                account = Account.objects.get(account_id=uuid_obj)
+                
+            except Account.DoesNotExist : 
+                return Response(
+                    {"error": "Account not found for the account ID."},
+                    status=status.HTTP_404_NOT_FOUND
+                )
             
             # get data 
             name= request.data.get('name')
