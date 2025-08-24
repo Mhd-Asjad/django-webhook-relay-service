@@ -143,12 +143,20 @@ class GetDestinations(APIView):
 class DeleteAccount(APIView):
     def delete(self , request , account_id):
         try:
+            try:
+                uuid_obj = uuid.UUID(account_id)
+            except ValueError:
+                return Response(
+                    {"error": "Invalid account_id format. Please provide a valid UUID."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
             try : 
-                account = Account.objects.get(account_id=account_id)
+                account = Account.objects.get(account_id=uuid_obj)
                 
             except Account.DoesNotExist : 
                 return Response(
-                    {"error": "Account not found for the provided UUID."},
+                    {"error": "Account not found for the account ID."},
                     status=status.HTTP_404_NOT_FOUND
                 )
             account.delete()
@@ -196,4 +204,62 @@ class DeleteDestination(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=500)
 
-    
+# Get Account
+class ShowAccount(APIView):
+    def get(self, request, account_id):
+        try:
+            try:
+                uuid_obj = uuid.UUID(account_id)
+            except ValueError:
+                return Response(
+                    {"error": "Invalid account_id format. Please provide a valid UUID."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            account = Account.objects.get(account_id=uuid_obj)
+            
+            account_data = {
+                "name" : account.name,
+                "email": account.email,
+                "app_secret": account.secret_token, 
+            }
+            
+            return Response({'account' : account_data},status=status.HTTP_200_OK)
+            
+        except Destination.DoesNotExist:
+            return Response({'error': 'Destination not found'}, status=404)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+
+
+# Edit user Account /edit-account/account_id
+class EditAccount(APIView):
+    def put(self , request , account_id):
+      
+        try:
+            try:
+                uuid_obj = uuid.UUID(account_id)
+            except ValueError:
+                return Response(
+                    {"error": "Invalid account_id format. Please provide a valid UUID."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
+            account = Account.objects.get(account_id=uuid_obj)
+            
+            # get data 
+            name= request.data.get('name')
+            email = request.data.get('email')
+            
+            if name :
+                account.name = name
+                
+            if email:
+                account.email = email
+                
+            account.save()
+            
+            return Response({'message': 'Account updated successfully'}, status=200)
+        
+        except Exception as e:
+            return Response({'error': str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)

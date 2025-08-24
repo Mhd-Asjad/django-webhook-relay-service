@@ -11,4 +11,6 @@ urlpatterns = [
     path('delete-account/<str:account_id>/', DeleteAccount.as_view(), name="delete-account"),
     path('edit-destination/<int:destination_id>/', EditDestination.as_view(), name="edit-destination"),
     path('delete-destination/<int:destination_id>/', DeleteDestination.as_view(), name="delete-destination"),
+    path('show-account/<str:account_id>/',ShowAccount.as_view(),name="show-account"), 
+    path('edit-account/<str:account_id>/',EditAccount.as_view(),name="edit-account")
 ]

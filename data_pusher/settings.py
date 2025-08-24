@@ -80,14 +80,10 @@ WSGI_APPLICATION = "data_pusher.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'webhookservice',  
-        'USER': 'postgres', 
-        'PASSWORD': 'postgres',  
-        'HOST': 'localhost',  
-        'PORT': '5432', 
-    }
+    
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL')
+    )
 }
 
 # settings.py
