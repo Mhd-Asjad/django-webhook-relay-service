@@ -156,3 +156,44 @@ class DeleteAccount(APIView):
         
         except Account.DoesNotExist:
             return Response({"error": "Account not found"}, status=404)
+
+# edit each destination
+class EditDestination(APIView):
+    def put(self , request , destination_id):
+        try:
+            destination = Destination.objects.get(id=destination_id)
+            
+            url = request.data.get('url')
+            method = request.data.get('method')
+            headers = request.data.get('headers')
+
+            if url:
+                destination.url = url
+            if method:
+                destination.method = method.upper()
+            if headers:
+                destination.headers = headers
+
+            destination.save()
+
+            return Response({'message': 'Destination updated successfully'}, status=200)
+
+        except Destination.DoesNotExist:
+            return Response({'error': 'Destination not found'}, status=404)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+        
+# delete each destination
+class DeleteDestination(APIView):
+    def delete(self , request , destination_id):
+        try:
+            destination = Destination.objects.get(id=destination_id)
+            destination.delete()
+            return Response({'message': 'Destination deleted successfully'}, status=200)
+        
+        except Destination.DoesNotExist:
+            return Response({'error': 'Destination not found'}, status=404)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+
+    
