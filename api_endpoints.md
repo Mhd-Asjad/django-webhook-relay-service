@@ -111,4 +111,31 @@ Example:
   "message": "Account and its destinations deleted successfully."
 }
 
+
+---
 ```
+
+## 6. Edit Destination
+**PUT** `/edit-destination/<destination_id>/`  
+
+**Request Body (JSON)** *(all fields optional)*  
+
+- **7. Delete Destination** – `DELETE /delete-destination/<destination_id>/`  
+  - Success: `{ "message": "Destination deleted successfully" }` (200)  
+  - Errors: `{ "error": "Destination not found" }` (404), `{ "error": "Detailed error message" }` (500)
+
+- **8. Show Account** – `GET /show-account/<account_id>/`  
+  - Success: `{ "account": { "name": "...", "email": "...", "app_secret": "..." } }` (200)  
+  - Errors: `{ "error": "Invalid account_id format. Please provide a valid UUID." }` (400), `{ "error": "Account not found for the account ID." }` (404), `{ "error": "Detailed error message" }` (500)
+
+- **9. Edit Account** – `PUT /edit-account/<account_id>/`  
+  - Request (optional fields): `{ "name": "Updated Name", "email": "newemail@example.com" }`  
+  - Success: `{ "message": "Account updated successfully" }` (200)  
+  - Errors: `{ "error": "Invalid account_id format. Please provide a valid UUID." }` (400), `{ "error": "Account not found for the account ID." }` (404), `{ "error": "Detailed error message" }` (500)
+
+---
+
+**Notes:**  
+- All endpoints accept and return **JSON**.  
+- Only provided fields are updated.  
+- UUIDs must be valid for all account-related operations.  
