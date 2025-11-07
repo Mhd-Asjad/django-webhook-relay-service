@@ -6,7 +6,7 @@ https://weebhook-service.onrender.com/api/accounts
 
 
 ## 1. Save Account
-**POST** `/save-account/save-account/`
+**POST** `/save-account/`
 
 **Request Body (JSON)**
 ```
@@ -73,11 +73,11 @@ Example:
 ```
 
 ## 4. Incoming Data (Webhook Endpoint)
-**POST** `/incoming-data/`
+**POST** `/sent-data/`
 
 **Headers**
 
-`CL-X-Token: abc123xyz789`
+`CL-X-Token: abc123xyz789` (account id)
 
 **Request Body (JSON)**
  
@@ -120,17 +120,22 @@ Example:
 
 **Request Body (JSON)** *(all fields optional)*  
 
-- **7. Delete Destination** – `DELETE /delete-destination/<destination_id>/`  
+## 7. Delete Destination
+**DELETE** `/delete-destination/<destination_id>/`
   - Success: `{ "message": "Destination deleted successfully" }` (200)  
   - Errors: `{ "error": "Destination not found" }` (404), `{ "error": "Detailed error message" }` (500)
 
-- **8. Show Account** – `GET /show-account/<account_id>/`  
+## 8. Show Account**
+**GET** `/show-account/<account_id>/`  
   - Success: `{ "account": { "name": "...", "email": "...", "app_secret": "..." } }` (200)  
   - Errors: `{ "error": "Invalid account_id format. Please provide a valid UUID." }` (400), `{ "error": "Account not found for the account ID." }` (404), `{ "error": "Detailed error message" }` (500)
 
-- **9. Edit Account** – `PUT /edit-account/<account_id>/`  
+## 9. Edit Account**
+**PUT** `/edit-account/<account_id>/`  
   - Request (optional fields): `{ "name": "Updated Name", "email": "newemail@example.com" }`  
-  - Success: `{ "message": "Account updated successfully" }` (200)  
+
+  - Success: `{ "message": "Account updated successfully" }` (200)
+  
   - Errors: `{ "error": "Invalid account_id format. Please provide a valid UUID." }` (400), `{ "error": "Account not found for the account ID." }` (404), `{ "error": "Detailed error message" }` (500)
 
 ---

@@ -4,16 +4,17 @@ from rest_framework import status
 import requests
 from django.core.exceptions import ObjectDoesNotExist
 from .models import *
-
+from utils.logger import logger
 # Create your views here.
 
 class IncomingDataView(APIView):
     # only recieves a post data sent's to particular destination
     def post(self , request ) :
+        logger.info("Incoming data received")
         token = request.headers.get("CL-X-TOKEN")
         if not token:
+            logger.warning("Unauthorized request: missing token")
             return Response({"message":"unautherized"},status=401)
-        print(token)
         data = request.data
         
         if not isinstance(data , dict):
@@ -37,7 +38,7 @@ class IncomingDataView(APIView):
                     res = requests.post(url , json=data , headers=headers)
                 elif method == "PUT":
                     requests.put(url , json=data , headers=headers)
-                    
+                        
             except Exception as e :
                 print(f"failed to send message : {str(e)}")
         
@@ -94,7 +95,6 @@ class CreateDestination(APIView):
 
             return Response({
                 'message': 'Destination created successfully',
-                'destination_id': destination.id
             }, status=201)
 
         except Exception as e:
